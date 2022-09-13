@@ -1,0 +1,47 @@
+plugins {
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.jenkins-ci.org/public/"
+    }
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src','vars']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+    }
+    test {
+        groovy {
+            srcDirs = ['src', 'test']
+        }
+    }
+}
+
+dependencies {
+    implementation group: 'org.jenkins-ci.main', name: 'jenkins-core', version: '2.85'
+    implementation group: 'com.cloudbees', name: 'groovy-cps', version: '1.31'
+    implementation group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.4'
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.7'
+    
+    testImplementation group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M5-groovy-3.0'
+    testImplementation group: 'org.spockframework', name: 'spock-bom', version: '2.0-M5-groovy-3.0'
+}
+
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
+}
